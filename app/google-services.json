@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "861798238383",
+    "firebase_url": "https://realtimedbtest-8eefb-default-rtdb.firebaseio.com",
+    "project_id": "realtimedbtest-8eefb",
+    "storage_bucket": "realtimedbtest-8eefb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861798238383:android:edf0b43870a214ce7eec5a",
+        "android_client_info": {
+          "package_name": "com.ayush.threads"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqgKsGVZJp4FzOeEjypHIdauCIsjfxr6w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861798238383:android:cc7d1affd00547557eec5a",
+        "android_client_info": {
+          "package_name": "com.example.realtimedb"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqgKsGVZJp4FzOeEjypHIdauCIsjfxr6w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
