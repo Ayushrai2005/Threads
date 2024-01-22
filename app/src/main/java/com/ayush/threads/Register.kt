@@ -10,8 +10,11 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.ayush.threads.data.User
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.database
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 
 class Register : AppCompatActivity() {
     private lateinit var signupName: EditText
@@ -37,6 +40,11 @@ class Register : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
+        loginRedirectText.setOnClickListener {
+            val intent = Intent(this, Login::class.java)
+            startActivity(intent)
+        }
+
         signupButton.setOnClickListener {
             val name = signupName.text.toString()
             val email = signupEmail.text.toString()
@@ -46,7 +54,6 @@ class Register : AppCompatActivity() {
             listOfFollowings.add("")
             val listOfTweets = mutableListOf<String>()
             listOfTweets.add("")
-            val userProfileImage : String = ""
 
 
             mAuth.createUserWithEmailAndPassword(email, password)
@@ -55,57 +62,38 @@ class Register : AppCompatActivity() {
                         // User is successfully registered and authenticated.
                         // Add the user's data to the Firestore database.
 
-                        val uid :String = mAuth.uid.toString()
+                        val user = User (
+                            userEmail = email ,
+                            userprofileImage = "",
+                            listOfFollowings = listOfFollowings ,
+                            listOfTweets = listOfTweets ,
+                            uid = mAuth.uid.toString() ,
+                            userPh_No = phone,
+                            userPassWord =  password ,
+                            userName = name
 
-
-                        val user = hashMapOf(
-
-                            "email" to email,
-                            "userProfileImage" to userProfileImage,
-                            "listOfFollowings" to listOfFollowings,
-                            "listOfTweets" to listOfTweets,
-                            "uid" to uid ,
-
-
-                            //Additional Info
-                            "name" to name,
-                            "phone" to phone,
-                            "password" to password
                         )
 
-//                        val user = User (
-//                            userEmail = email ,
-//                            userprofileImage = "",
-//                            listOfFollowings = listOfFollowings ,
-//                            listOfTweets = listOfTweets ,
-//                            uid = mAuth.uid.toString() ,
-//                            userPh_No = phone,
-//                            userPassWord =  password ,
-//                            userName = name
-//
-//
-//                        )
-
-                        db.collection("users")
-                            .add(user)
-                            .addOnSuccessListener { documentReference ->
-                                Toast.makeText(this, "You have signed up successfully!", Toast.LENGTH_SHORT).show()
+                        addUserToDatabase(user)
+                        Toast.makeText(this, "You have signed up successfully!", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(this, Login::class.java)
                                 startActivity(intent)
-                            }
-                            .addOnFailureListener { e ->
-                                // Handle any errors here
-                            }
-                    } else {
+
+
+                    }else {
                         // If sign-up fails, display a message to the user.
                         Toast.makeText(this, "Registration failed.", Toast.LENGTH_SHORT).show()
                     }
                 }
-        }
 
-        loginRedirectText.setOnClickListener {
-            val intent = Intent(this ,Login::class.java)
-            startActivity(intent)
+
         }
     }
+
+    private fun addUserToDatabase(user: User){
+        Firebase.database.getReference("users").child(user.uid).setValue(user)
+    }
+
+
 }
+
