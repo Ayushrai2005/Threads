@@ -34,6 +34,7 @@ class SuggestedAccountAdapter(
         return ViewHolder(view)
     }
 
+
     override fun getItemCount(): Int {
         return listOfAccounts.size
     }
@@ -46,13 +47,13 @@ class SuggestedAccountAdapter(
             .into(p0.image)
 
         p0.btnFollow.setOnClickListener {
-            clickListener.onFollowClicked()
+            clickListener.onFollowClicked(currentAccount.uid)
 
         }
     }
 
 
     interface ClickListener{
-        fun onFollowClicked()
+        fun onFollowClicked(uid : String)
     }
 }

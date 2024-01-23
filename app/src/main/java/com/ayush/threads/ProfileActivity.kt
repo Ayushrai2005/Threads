@@ -66,7 +66,7 @@ class ProfileActivity : AppCompatActivity() {
                 override fun onDataChange(p0: DataSnapshot) {
                     val link = p0.child("userprofileImage").value.toString()
 
-                    if(!link.isNullOrBlank()){
+                    if(link.isNotBlank()){
                         Glide.with(this@ProfileActivity)
                             .load(link)
                             .into(profileImage)
