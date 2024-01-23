@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Threads"
         tools:targetApi="31">
         <activity
+            android:name=".About.About"
+            android:exported="false" />
+        <activity
             android:name=".TweetActivity"
             android:exported="false" />
         <activity

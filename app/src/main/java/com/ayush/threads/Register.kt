@@ -56,35 +56,45 @@ class Register : AppCompatActivity() {
             listOfTweets.add("")
 
 
-            mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        // User is successfully registered and authenticated.
-                        // Add the user's data to the Firestore database.
+            //Checks Required field is entered or not
+            if(email.isNotEmpty() && password.isNotEmpty()){
 
-                        val user = User (
-                            userEmail = email ,
-                            userprofileImage = "",
-                            listOfFollowings = listOfFollowings ,
-                            listOfTweets = listOfTweets ,
-                            uid = mAuth.uid.toString() ,
-                            userPh_No = phone,
-                            userPassWord =  password ,
-                            userName = name
+                mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            // User is successfully registered and authenticated.
+                            // Add the user's data to the Firestore database.
 
-                        )
+                            val user = User (
+                                userEmail = email ,
+                                userprofileImage = "",
+                                listOfFollowings = listOfFollowings ,
+                                listOfTweets = listOfTweets ,
+                                uid = mAuth.uid.toString() ,
+                                userPh_No = phone,
+                                userPassWord =  password ,
+                                userName = name
 
-                        addUserToDatabase(user)
-                        Toast.makeText(this, "You have signed up successfully!", Toast.LENGTH_SHORT).show()
-                                val intent = Intent(this, Login::class.java)
-                                startActivity(intent)
+                            )
+
+                            addUserToDatabase(user)
+                            Toast.makeText(this, "You have signed up successfully!", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, Login::class.java)
+                            startActivity(intent)
 
 
-                    }else {
-                        // If sign-up fails, display a message to the user.
-                        Toast.makeText(this, "Registration failed.", Toast.LENGTH_SHORT).show()
+                        }else {
+                            // If sign-up fails, display a message to the user.
+                            Toast.makeText(this, "Registration failed.", Toast.LENGTH_SHORT).show()
+
+                        }
                     }
-                }
+            }else{
+                Toast.makeText(this, "Enter Required Fields", Toast.LENGTH_SHORT).show()
+            }
+
+
+
 
 
         }

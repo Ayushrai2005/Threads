@@ -8,13 +8,24 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.viewpager2.widget.ViewPager2
+import com.ayush.threads.About.About
+import com.ayush.threads.Module.VPAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var auth : FirebaseAuth
+
+
+    //tab layout , viewPAger and adapter
+    private lateinit var vpAdapter : VPAdapter
+    private lateinit var viewPager : ViewPager2
+    private lateinit var tabLayout : TabLayout
 
     //lateOp
 
@@ -95,11 +106,11 @@ class HomeActivity : AppCompatActivity() {
         }
 
 
-//        mAddPersonFab.setOnClickListener {
-//            startActivity(
-//                Intent(this,about::class.java)
-//            )
-//        }
+        mAddPersonFab.setOnClickListener {
+            startActivity(
+                Intent(this, About::class.java)
+            )
+        }
 
 
 
@@ -111,6 +122,16 @@ class HomeActivity : AppCompatActivity() {
         //lateop
 
         init()
+        TabLayoutMediator(tabLayout , viewPager){ tab : TabLayout.Tab , position : Int ->
+           when(position){
+            0 -> tab.text = "Accounts"
+               else -> tab.text = "Threads"
+
+
+               }
+
+        }.attach()
+
 
 
 
@@ -150,5 +171,10 @@ class HomeActivity : AppCompatActivity() {
 
     private fun init(){
         auth = Firebase.auth
+        vpAdapter = VPAdapter(this)
+        viewPager = findViewById(R.id.view_pager)
+        viewPager.adapter = vpAdapter
+        tabLayout = findViewById(R.id.tab_layout)
+
     }
 }
