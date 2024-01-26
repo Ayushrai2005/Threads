@@ -18,10 +18,10 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
-class TweetFragment: Fragment() {
+class TweetFragment : Fragment() {
 
     private lateinit var tweetAdapter: TweetAdapter
-    private lateinit var rvTweet : RecyclerView
+    private lateinit var rvTweet: RecyclerView
     private var listOfTweet = mutableListOf<Tweet>()
 
     override fun onCreateView(
@@ -29,8 +29,7 @@ class TweetFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_tweet , container , false)
-
+        val view = inflater.inflate(R.layout.fragment_tweet, container, false)
         return view
     }
 
@@ -38,58 +37,64 @@ class TweetFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         rvTweet = view.findViewById(R.id.rvTweets)
-        FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().uid.toString())
-            .addListenerForSingleValueEvent(object : ValueEventListener{
-                override fun onDataChange(p0: DataSnapshot) {
-                    val listOfFollowingUIds = p0.child("listOfFollwings").value as? MutableList<String>
+        getFollowingTweets()
+    }
 
-                    // include this to get own tweets
-                    if (listOfFollowingUIds != null) {
-                        listOfFollowingUIds.add(FirebaseAuth.getInstance().uid.toString())
-                    }
-                    if (listOfFollowingUIds != null) {
-                        listOfFollowingUIds.forEach{
-                            getTweetFromUids(it)
-                        }
+    private fun getFollowingTweets() {
+        val currentUserUid = FirebaseAuth.getInstance().uid
+
+        FirebaseDatabase.getInstance().getReference().child("users").child(currentUserUid!!)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val listOfFollowingUIds = (snapshot.child("listOfFollowings").value as? MutableList<String>)
+
+                    // Include the current user's UID to get their own tweets
+                    listOfFollowingUIds?.add(currentUserUid)
+
+                    // Clear the list before populating it with new tweets
+                    listOfTweet.clear()
+
+                    // Fetch tweets for each UID
+                    listOfFollowingUIds?.forEach { uid ->
+                        getTweetFromUid(uid)
                     }
                 }
 
-                override fun onCancelled(p0: DatabaseError) {
-//                    TODO("Not yet implemented")
+                override fun onCancelled(error: DatabaseError) {
+                    // Handle the error
                 }
-
             })
     }
 
-    private fun getTweetFromUids(uid : String){
+    private fun getTweetFromUid(uid: String) {
         FirebaseDatabase.getInstance().getReference().child("users").child(uid)
-            .addListenerForSingleValueEvent(object  : ValueEventListener{
+            .addListenerForSingleValueEvent(object : ValueEventListener {
 
-                override fun onDataChange(p0: DataSnapshot) {
-                    var tweetList = mutableListOf<String>()
-                    p0.child("listOfTweets").value?.let {
-                            tweetList = it as MutableList<String>
-                    }
-                    tweetList.forEach { tweetContent ->
-                        Log.d("TweetFragment", "Tweet content: $tweetContent")
-                        if (!tweetContent.isNullOrBlank()) {
-                            listOfTweet.add(Tweet(tweetContent))
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val tweetList = snapshot.child("listOfTweets").value as? MutableList<String>
+
+                    // Add tweets to the list
+                    tweetList?.forEach { tweet ->
+                        if (!tweet.isNullOrBlank()) {
+                            listOfTweet.add(Tweet(tweet))
                         }
                     }
 
-                    tweetAdapter= TweetAdapter(listOfTweet)
-                    rvTweet.layoutManager= LinearLayoutManager(requireContext())
-                    rvTweet.adapter = tweetAdapter
-                    tweetAdapter.notifyDataSetChanged()
 
+                    // Update the RecyclerView adapter after fetching all tweets
+                    updateRecyclerView()
                 }
 
-                override fun onCancelled(p0: DatabaseError) {
-                    TODO("Not yet implemented")
+                override fun onCancelled(error: DatabaseError) {
+                    // Handle the error
                 }
-
             })
+    }
 
-
+    private fun updateRecyclerView() {
+        tweetAdapter = TweetAdapter(listOfTweet)
+        rvTweet.layoutManager = LinearLayoutManager(requireContext())
+        rvTweet.adapter = tweetAdapter
+        tweetAdapter.notifyDataSetChanged()
     }
 }
