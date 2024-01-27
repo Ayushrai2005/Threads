@@ -49,7 +49,7 @@ class TweetFragment : Fragment() {
                     val listOfFollowingUIds = (snapshot.child("listOfFollowings").value as? MutableList<String>)
 
                     // Include the current user's UID to get their own tweets
-                    listOfFollowingUIds?.add(currentUserUid)
+//                    listOfFollowingUIds?.add(currentUserUid)
 
                     // Clear the list before populating it with new tweets
                     listOfTweet.clear()
