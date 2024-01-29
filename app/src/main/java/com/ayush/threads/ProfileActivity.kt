@@ -41,6 +41,12 @@ class ProfileActivity : AppCompatActivity() {
             val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(galleryIntent, 101)
         }
+
+        btnFollowings.setOnClickListener {
+            startActivity(Intent(this , Follow_lists::class.java)
+            )
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -57,6 +63,14 @@ class ProfileActivity : AppCompatActivity() {
 
 
         }
+    }
+
+
+    override fun onBackPressed() {
+        // Explicitly navigate back to Home Activity
+        val homeIntent = Intent(this, HomeActivity::class.java)
+        startActivity(homeIntent)
+        finish()
     }
 
     private fun uploadProfileImage(uri: Uri?) {

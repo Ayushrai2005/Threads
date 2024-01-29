@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@drawable/img3"
-    tools:context=".Login">
+    tools:context=".About.About">
 
     <TextView
         android:layout_width="316dp"
@@ -38,8 +38,8 @@
             android:padding="24dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="192dp"
+                android:layout_width="299dp"
+                android:layout_height="181dp"
                 android:text="I am Ayush , Bca 3rd sem student From Guru Ghasidas Vishvidyalaya , currently working on Android app development using Kotliin and Xml."
                 android:textAlignment="viewStart"
                 android:textColor="#575252"
@@ -50,12 +50,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="viewStart"
+                android:text="Skills: Java, Data Structures, Android App Development, Python, Database Management,  etc."
                 android:textColor="#575252"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btn_call"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Call me" />
+
 
 
 </LinearLayout>

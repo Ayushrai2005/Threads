@@ -12,7 +12,7 @@ class VPAdapter(fa : FragmentActivity) : FragmentStateAdapter(fa) {
     }
 
     override fun createFragment(p0: Int): Fragment {
-      return   when(p0){
+        return   when(p0){
             0-> SuggestedAccountFragment()
             else-> TweetFragment()
         }
