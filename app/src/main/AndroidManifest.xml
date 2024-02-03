@@ -15,10 +15,7 @@
         android:theme="@style/Theme.Threads"
         tools:targetApi="31">
         <activity
-            android:name=".Follow_lists"
-            android:exported="false" />
-        <activity
-            android:name=".follow_lists"
+            android:name=".SplashScreen.Slashh"
             android:exported="false" />
         <activity
             android:name=".About.About"

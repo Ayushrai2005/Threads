@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.ayush.threads.SplashScreen.Slashh
 import com.google.firebase.auth.FirebaseAuth
 
 class Login : AppCompatActivity() {
@@ -31,7 +32,7 @@ class Login : AppCompatActivity() {
             auth = FirebaseAuth.getInstance()
 
         if(auth.currentUser!= null){
-            val intent = Intent(this ,HomeActivity::class.java)
+            val intent = Intent(this , Slashh::class.java)
             startActivity(intent)
             finish()
         }

@@ -20,7 +20,6 @@ import java.util.*
 class ProfileActivity : AppCompatActivity() {
     private lateinit var profileImage: CircleImageView
     private lateinit var btnOpenGallery: Button
-    private lateinit var database: FirebaseDatabase
     private lateinit var profileName: TextView
     private lateinit var titleName: TextView
     private lateinit var profilePhone: TextView
@@ -34,6 +33,7 @@ class ProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+
         init()
         fetchUserData()
 
@@ -43,8 +43,7 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         btnFollowings.setOnClickListener {
-            startActivity(Intent(this , Follow_lists::class.java)
-            )
+            Toast.makeText(this, "Button CLicked", Toast.LENGTH_SHORT).show()
         }
 
     }
